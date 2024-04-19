@@ -50,6 +50,23 @@ async function run() {
         
     })
 
+    app.put('/users/:id', async(req,res)=>{
+       const id = req.params.id
+       const User = req.body
+       console.log(User);
+       const filter = {_id:new ObjectId(id)}
+       const options = {upsert: true}
+
+       const updateUser = {
+          $set:{
+             email: User.email
+          }
+       }
+       const result = await userCollection.updateOne(filter, updateUser,options)
+       res.send(result)
+      
+    })
+
     app.delete('/users/:id', async(req,res)=>{
         const id = req.params.id
         console.log('please delete from database',id)
